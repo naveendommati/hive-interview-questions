@@ -134,4 +134,93 @@ answer:--internal table
 	it is like external reference to the raw data.
 	if we remove the table then only metadata will be deleted but original data will be untouched .
   
+  We create an external table for external use as when we want to use the data outside the Hive.
+  External tables are stored outside the warehouse directory. They can access data stored in sources such as remote HDFS locations or Azure Storage Volumes
   
+  internal hive 
+  Use INTERNAL tables when: The data is temporary. You want Hive to completely manage the lifecycle of the table and data.
+  
+  17) Where does the data of a Hive table get stored?
+  answer:-- Hive stores its database and table metadata in a metastore,
+  
+  18) Is it possible to change the default location of a managed table?
+  answer:- yes  we can change the location of managed table in hive by giving location path .
+  
+  19) What is a metastore in Hive? What is the default database provided by
+Apache Hive for metastore?
+
+answer:-- Metastore is the central repository of Apache Hive metadata. It stores metadata for Hive tables 
+Derby is the default database for the embedded metastore.
+
+20) Why does Hive not store metadata information in HDFS?
+answer:-- Hive stores metadata information in the metastore using RDBMS instead of HDFS.
+21).What is a partition in Hive? And Why do we perform partitioning in
+Hive?
+answer:--
+partition in hive :--- it is away of dividing table into related parts based on the values of aparticular column.
+ the data is stored in slices, the query response time becomes faster.
+ 
+ 22) What is the difference between dynamic partitioning and static partitioning?
+answer:-- dynamic partition
+**  here column values will be unknown to us 
+** hive will identify the unique value from partitioned column.
+**it takes longer time while loading the data.
+static partition:-
+** here value of partition column will be known to us .
+** we load the data in a specific partition .
+** static partition takes less time. while loading data
+
+23) How do you check if a particular partition exists?
+answer:-- SHOW PARTITIONS table_name 
+PARTITION(partitioned_column=’partition_value’)
+
+24) How can you stop a partition form being queried?
+answer:--By using the ENABLE OFFLINE clause with ALTER TABLE atatement.
+
+25) Why do we need buckets? How Hive distributes the rows into buckets?
+answer:--
+Bucketing in hive is useful when dealing with large datasets 
+that may need to be segregated into clusters for more efficient management and to be able to perform join queries with other large datasets
+based on the hashing technique.
+
+26) In Hive, how can you enable buckets?
+answer:-- set.hive.enforce.bucketing=true;
+
+27) How does bucketing help in the faster execution of queries?
+answer:-- Bucketing improves performance by shuffling and sorting data prior to downstream operations such as table joins.
+
+28)  How to optimise Hive Performance? Explain in very detail.
+answer :-- 
+First, tweak your data through partitioning, bucketing, compression, etc.
+Improving the execution of a hive query is another Hive query optimization technique.
+You can do this by using Tez, avoiding skew, and increasing parallel execution.
+
+29) What is the use of Hcatalog?
+answer:- HCatalog is a tool that allows you to access Hive metastore tables within Pig, Spark SQL, and/or custom MapReduce applications.
+
+30) Explain about the different types of join in Hive.
+answer:-- there are several types of Hive join –
+Hive inner join, hive left outer join, hive right outer join, and hive full outer join.
+
+31) Is it possible to create a Cartesian join between 2 tables, using Hive?
+ answer:-- Cross join, also known as Cartesian product, 
+ is a way of joining multiple tables in which all the rows or tuples from one table are paired with the rows and tuples from another table.
+ 
+ 32) Explain the SMB Join in Hive?
+ answer:-- SMB is a join performed on bucket tables that have the same sorted, bucket, and join condition columns.
+ It reads data from both bucket tables and performs common joins (map and reduce triggered) on the bucket tables.
+ 
+ 33) What is the difference between order by and sort by which one we should use?
+ answer:-- The difference between "order by" and "sort by" is that the former guarantees 
+ total order in the output while the latter only guarantees ordering of the rows within a reducer.
+ If there are more than one reducer, "sort by" may give partially ordered final results
+ 
+ 34) What is the usefulness of the DISTRIBUTED BY clause in Hive?
+ answer:-- DISTRIBUTE BY clause is used to distribute the input rows among reducers.
+ It ensures that all rows for the same key columns are going to the same reducer.
+ So, if we need to partition the data on some key column, we can use the DISTRIBUTE BY clause in the hive queries.
+ 
+ 35) How does data transfer happen from HDFS to Hive?
+ answer:-- You create a single Sqoop import command that imports data from diverse data sources, such as a relational database, into HDFS.
+ Convert the data to ORC format. To query data in HDFS in Hive, you apply a schema to the data and then store data in ORC format.
+ Incrementally update the imported data
