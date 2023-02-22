@@ -1,0 +1,137 @@
+1) What is the definition of Hive? What is the present version of Hive?
+answer :- hive is dataware house which will run on top of hadoop.
+present version is hive 3.1.3.
+
+2) Is Hive suitable to be used for OLTP systems? Why?
+answer:-- No Hive does not provide insert and update at row level. So it is not suitable for OLTP system.
+
+3) How is HIVE different from RDBMS? Does hive support ACID transactions. If not then give the proper reason.
+answer:-- hive is only of used for maintain data warehouse.
+it will run on HQL .Hive supports ACID transactions on tables that store ORC file format.
+
+4)Explain the hive architecture and the different components of a Hive architecture?
+hive architecture.
+-----------------
+
+1)multiple clients like thrift app, jdbc app, odbc app.
+
+2)client will gives data to driver .
+3)driver to compiler 
+4)driver to metastore
+5)driver to optimizer.
+6) the driver output goes to mapreduce and yarn part.
+7)map reduces, yarn  (resource management and processing)
+8)mapreduce to hdfs part file receives
+9)last is hdfs this is for storage of file
+
+5)Mention what Hive query processor does? And Mention what are the components of a Hive query processor?
+answer:-- Hive query processor convert graph of MapReduce jobs with the execution time framework.
+Parse and Semantic Analysis (ql/parse)
+Metadata Layer (ql/metadata)
+Type Interfaces (ql/typeinfo)
+Sessions (ql/session)
+Map/Reduce Execution Engine (ql/exec)
+Plan Components (ql/plan)
+Hive Function Framework (ql/udf)
+Tools (ql/tools).
+
+6) what are the 3 modes in which we can operate hive?
+answer:-- Standalone Mode.
+Pseudo-distributed Mode.
+Fully-Distributed Mode.
+
+7) What are the features and limitations of hive?
+ answer:--
+Limitations of Hive
+Hive doesn't support OLTP. Hive supports Online Analytical Processing (OLAP), but not Online Transaction Processing (OLTP).
+It doesn't support subqueries.
+It has a high latency.
+Hive's Features
+Hive is designed for querying and managing only structured data stored in tables.
+Hive is scalable, fast, and uses familiar concepts.
+Schema gets stored in a database, while processed data goes into a Hadoop Distributed File System (HDFS)
+
+8) How to create a Database in HIVE?
+answer:-- create database name.
+
+9) How to create a table in HIVE?
+answer:-- create table name( id, name etc).
+row format delimited .
+fields terminated by some limitation;
+
+10) What do you mean by describe and describe extended and describe
+formatted with respect to database and table.
+answer:--
+describe extended - This will show table columns, data types, and other details of the table. 
+Other details will be displayed in single line.
+describe formatted - This will show table columns, data types, and other details of the table.
+Other details will be displayed into multiple lines
+
+11)How to skip header rows from a table in Hive?
+answer:-- by using tabular properties like 
+tbl properties("skip.header.line.count"= "1")
+
+12)What is a hive operator? What are the different types of hive operators?
+answer:-- Hive operators are used for mathematical operations on operands. It returns specific value as per the logic applied.
+There are four types of operators in Hive:
+Relational Operators.
+Arithmetic Operators.
+Logical Operators.
+Complex Operators.
+
+13) 13.Explain about the Hive Built-In Functions
+answer:-- The Hive Built-in functions are categorized as Mathematical function, Collection function, Type conversion function, Date function, Conditional function, and String function. 
+
+14)write hive DDL and DML commands.
+The various Hive DML commands are:
+LOAD.
+SELECT.
+INSERT.
+DELETE.
+UPDATE.
+
+The several types of Hive DDL commands are:
+CREATE.
+SHOW.
+DESCRIBE.
+USE.
+DROP.
+ALTER.
+EXPORT.
+IMPORT.
+TRUNCATE.
+
+15)15.Explain about SORT BY, ORDER BY, DISTRIBUTE BY and
+CLUSTER BY in Hive.
+answer:-- sort by:
+That means the files are sorted per reducer basis only, and not globally. 
+Note that the final output data is not globally sorted and may have overlapping data ranges.
+
+order by :
+ORDER BY clause orders the data globally.
+Because it ensures the global ordering of the data, all the data need to be passed from a single reducer only.
+
+distribute by:
+DISTRIBUTE BY clause is used to distribute the input rows among reducers. 
+It ensures that all rows for the same key columns are going to the same reducer. 
+the DISTRIBUTE BY clause may output N number of unsorted files where N is the number of reducers used in the query processing.
+But, the output files do not contain overlapping data ranges.
+
+clusterby:
+CLUSTER BY clause is a combination of DISTRIBUTE BY and SORT BY clauses together.
+That means the output of the CLUSTER BY clause is equivalent to the output of DISTRIBUTE BY + SORT BY clauses. 
+As a result, the order by clause outputs one single file only. 
+
+16) Difference between "Internal Table" and "External Table" and Mention
+when to choose “Internal Table” and “External Table” in Hive?
+answer:--internal table 
+   if we table metadata will be stored in meta store 
+	data of the table will be stored in warehouse directory inside hdfs configured for hive.
+	if we drop a internal table then its metadata & original data both,will be removed
+2)external table:---
+  meta data will be stored in metastore.
+	raw data will not be stored in hive warehouse directory but it will stored in hdfs location .
+	it is like external reference to the raw data.
+	if we remove the table then only metadata will be deleted but original data will be untouched .
+  
+  
