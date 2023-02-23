@@ -252,3 +252,164 @@ answer:-- Hive allows the framework to read or write data in a particular format
 SerDe is short for Serializer/Deserializer. Hive uses the SerDe interface for IO. 
 The interface handles both serialization and deserialization and also interpreting the results of serialization as individual fields for processing.
 
+41)Explain how Hive Deserializes and serialises the data?
+answer:-- when querying a table, a SerDe will deserialize a row of data from the bytes in the file to objects used internally by Hive to operate on that row of data. 
+when performing an INSERT or CTAS (see “Importing Data” on page 441),
+the table’s SerDe will serialize Hive’s internal representation of a row of data into the bytes that are written to the output file
+
+42) .Write the name of the built-in serde in hive.
+answer:-- Basically, to read and write HDFS files Hive uses these FileFormat classes currently:
+
+TextInputFormat/HiveIgnoreKeyTextOutputFormat
+It read/write data in plain text file format.
+
+SequenceFileInputFormat/SequenceFileOutputFormat
+It read/write data in Hadoop SequenceFile format.
+Moreover, to serialize and deserialize data Hive uses these Hive SerDe classes currently:
+
+MetadataTypedColumnsetSerDe
+So, to read/write delimited records we use this Hive SerDe. Such as CSV, tab-separated control-A separated records (sorry, quote is not supported yet).
+
+LazySimpleSerDe
+Also, to read the same data format as MetadataTypedColumnsetSerDe and TCTLSeparatedProtocol, we can use this Hive SerDe. Moreover, it creates Objects in a lazy way. 
+Hence, that offers better performance.
+
+43) What is the need for custom SerDe?
+answer:-- 
+A SerDe allows Hive to read in data from a table, and write it back out to HDFS in any custom format. 
+Anyone can write their own SerDe for their own data formats. 
+See Hive SerDe for an introduction to SerDes.
+
+44) Can you write the name of a complex data type(collection data types) in Hive?
+answer:-- Array, Map, Struct and union.
+
+45) Can hive queries be executed from script files? How?
+answer:--- It is possible by using the source command.
+example:-- Hive> source /path/to/file/file_with_query.hql
+
+46)What are the default record and field delimiter used for hive text files?
+answer:-- The default record delimiter is − \n And the filed delimiters are − \001,\002,\003 
+
+47) How do you list all databases in Hive whose name starts with s?
+answer:-- hive>show databases like '%s';
+
+48) What is the difference between LIKE and RLIKE operators in Hive?
+answer:-- LIKE is an operator similar to LIKE in SQL. We use LIKE to search for string with similar text.
+          E.g. user_name LIKE ‘%Smith’
+
+RLIKE (Right-Like) is a special function in Hive where if any substring of A matches with B then it evaluates to true. 
+It also obeys Java regular expression pattern. Users don't need to put % symbol for a simple match in RLIKE.
+
+Hive provides RLIKE operator that can be used for searching advanced Regular Expressions in Java.
+
+E.g. user_name RLIKE ‘.(Smith|Sam).’
+
+49) How to change the column data type in Hive?
+answer:-- ALTER TABLE table_name CHANGE column_name column_name new_datatype;
+
+50) How will you convert the string ’51.2’ to a float value in the particular column?
+answer:--- select cast(1 as float);
+
+51) What will be the result when you cast ‘abc’ (string) as INT?
+answer:-- hive return  null 
+
+52) What does the following query do?
+ INSERT OVERWRITE TABLE employees
+ PARTITION (country, state)
+ SELECT ..., se.cnty, se.st
+ FROM staged_employees se;
+ 
+ answer: It creates partition on table employees with partition values coming from the columns in the select clause.
+ It is called Dynamic partition insert.
+ 
+ 53)  Write a query where you can overwrite data in a new table from the existing table.
+answer :-- insert overwrite table new_table_name select * from existing_table ;
+
+54) What is the maximum size of a string data type supported by Hive?
+Explain how Hive supports binary formats.
+answer:--  By default, the columns metadata for Hive does not specify a maximum data length for STRING columns.
+The driver has the parameter DefaultStringColumnLength, default is 255 maximum value.
+Does Hive support binary data type?
+Hive supports two miscellaneous data types: Boolean and Binary : Boolean accepts true or false values. Binary is a sequence of bytes. 
+It is similar to the VARBINARY data type found in many relational databases.
+
+55) What File Formats and Applications Does Hive Support?
+
+answer:-- file format are orc file.
+parquet file format,
+avero format,
+rc format,
+sequence format,
+text format
+
+hive support for orc file format.
+
+56) How do ORC format tables help Hive to enhance its performance?
+answer:-- Using the ORC format leads to a reduction in the size of the data stored, as this file format has high compression ratios.
+As the data size is reduced, the time to read and write the data is also reduced.
+The ORC format improves query performance also by the way it stores data in a file.
+
+57) How can Hive avoid mapreduce while processing the query?
+answer:-- You can make Hive avoid MapReduce to return query results by setting the hive. exec. mode. local.
+
+58)What is view and indexing in hive?
+answer:--  A view is just a way of abbreviating a subquery.
+An index is used to optimize matching column data.
+
+59)Can the name of a view be the same as the name of a hive table?
+answer:-- The name of a view must be unique, and it cannot be the same as any table or database or view's name.
+
+60) What types of costs are associated in creating indexes on hive tables?
+answer:--- Basically, there is a processing cost in arranging the values of the column on which index is created since Indexes occupies.
+
+61) Give the command to see the indexes on a table.
+answer:-- SHOW INDEX FROM yourtable;
+
+62) Explain the process to access subdirectories recursively in Hive queries.
+answer:-- hive> Set mapred. input. dir.
+
+63) If you run a select * query in Hive, why doesn't it run MapReduce?
+answer:--- Hive requires a map-reduce job since it needs to extract the 'column' from each row by parsing it from the file it loads.
+
+64) What are the uses of Hive Explode?
+answer:-- Explode in Hive is used to convert complex data types into desired table formats. explode
+UDTF basically emits all the elements in an array into multiple rows.
+
+65) What is the available mechanism for connecting applications when we run Hive as a server?
+answer:-- Thrift Client:
+
+66) Can the default location of a managed table be changed in Hive?
+answer:-- Yes, you can do it by using the clause – LOCATION '<hdfs_path>'
+
+67) What is the Hive ObjectInspector function?
+answer:-- Hive ObjectInspector is a group of flexible APIs to inspect value in different data representation, and developers can extend those API as needed, so technically, object inspector supports arbitrary data type in java. 
+Fortunately, only few built-in Hive Object Inspectors are used in generic udf/udaf/udtf evaluation.
+
+68) What is UDF in Hive?
+answer:-- The Db2 Big SQL environment in Hadoop includes the Hive user-defined functions package. 
+This set of functions is an optional package that you can install to use some of the Hive open source user-defined functions in your Db2 Big SQL queries.
+
+69) Write a query to extract data from hdfs to hive.
+answer:-- load data inpath 'location_name' into table table_name;
+
+70) What is TextInputFormat and SequenceFileInputFormat in hive.
+answer:--SequenceFile is a flat file consisting of binary key/value pairs. It is extensively used in MapReduce as input/output formats. 
+It is also worth noting that, internally, the temporary outputs of maps are stored using SequenceFile.
+ 
+TextInputFormat is one of the file formats of Hadoop. As the name suggest,it is used to read lines of text files.
+Basically it helps in generating key-value pairs from the text.
+
+71)How can you prevent a large job from running for a long time in a hive?
+answer:-- setting the MapReduce jobs to execute in strict mode set hive.
+
+72) When do we use explode in Hive?
+answer:-- The explode function explodes an array to multiple rows. Returns a row-set with a single column (col), one row for each element from the array.
+
+73) Can Hive process any type of data formats? Why? Explain in very detail
+answer:-- Hive supports four file formats those are TEXTFILE, SEQUENCEFILE, ORC and RCFILE (Record Columnar File).
+For single user metadata storage, Hive uses derby database and for multiple user Metadata or shared Metadata case Hive uses MYSQL
+
+
+
+
+
