@@ -409,7 +409,67 @@ answer:-- The explode function explodes an array to multiple rows. Returns a row
 answer:-- Hive supports four file formats those are TEXTFILE, SEQUENCEFILE, ORC and RCFILE (Record Columnar File).
 For single user metadata storage, Hive uses derby database and for multiple user Metadata or shared Metadata case Hive uses MYSQL
 
+74)Whenever we run a Hive query, a new metastore_db is created. Why?
+ answer:-- 
+ A local metastore is created when we run Hive in an embedded mode. 
+Before creating, it checks whether the metastore exists or not, and this metastore property is defined in the configuration file, hive-site.xml. 
+The property is:
 
+javax.jdo.option.ConnectionURL
+with the default value:
+
+jdbc:derby:;databaseName=metastore_db;create=true
+Therefore, we have to change the behavior of the location to an absolute path so that from that location the metastore can be used.
+
+75)Can we change the data type of a column in a Hive table? Write a complete query.
+answer:-- 
+Use the ALTER command on the table with the CHANGE clause.
+alter table table_name change column_name new_column_name datatype;
+
+76)While loading data into a hive table using the LOAD DATA clause, how do you specify it is a hdfs file and not a local file?
+answer while loading data in hive from hdfs system 
+the path says that data is in hdfs 
+command will be load data inpath '/directoty/file_name' into table table_name;
+
+77) What is the precedence order in Hive configuration?
+answer:-- In Hive we can use following precedence order to set the configurable properties.
+
+Hive SET command has the highest priority
+-hiveconf option from Hive Command Line
+hive-site.xml file
+hive-default.xml file
+hadoop-site.xml file
+hadoop-default.xml file
+
+78) Which interface is used for accessing the Hive metastore?
+answer:--  WebHCat API web interface can be used for Hive commands.
+It is a REST API that allows applications to make HTTP requests to access the Hive metastore (HCatalog DDL). 
+It also enables users to create and queue Hive queries and commands.
+ 
+ 79) Is it possible to compress json in the Hive external table
+answer:-- yes we can compress json in hive by using some of compression properties
+set mapred.output.compress=true;
+set hive.exec.compress.output=true;
+set mapred.output.compression.codec=org.apache.hadoop.io.compress.GzipCodec;
+set io.compression.codecs=org.apache.hadoop.io.compress.GzipCodec;
+
+80)What is the difference between local and remote metastores?
+answer:--
+Local Metastore:- Here metastore service still runs in the same JVM as Hive but it connects to a database running in a separate process either on same machine or on a remote machine. 
+Remote Metastore:- Metastore runs in its own separate JVM not on hive service JVM.
+
+81) What is the purpose of archiving tables in Hive?
+answer:-- You can use Hadoop archiving to reduce the number of hdfs files in the Hive table partition.
+
+82) What is DBPROPERTY in Hive?
+answer:-- DBPROPERTIES takes multiple arguments in the form of a key-value pair.
+
+83)Differentiate between local mode and MapReduce mode in Hive.
+answer:--  local mode;
+as the main HiveServer process, the Hive metastore service runs in the same process, but make sure Hive metastore database runs in a separate process, as well as it can be on a separate host,
+ 
+MapReduce: It is a parallel programming model for processing large amounts of structured, semi-structured, and unstructured data on large clusters of commodity hardware.
+HDFS:Hadoop Distributed File System is a part of Hadoop framework, used to store and process the datasets.
 
 
 
