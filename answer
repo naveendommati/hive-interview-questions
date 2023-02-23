@@ -224,3 +224,31 @@ Hive inner join, hive left outer join, hive right outer join, and hive full oute
  answer:-- You create a single Sqoop import command that imports data from diverse data sources, such as a relational database, into HDFS.
  Convert the data to ORC format. To query data in HDFS in Hive, you apply a schema to the data and then store data in ORC format.
  Incrementally update the imported data
+
+36)Wherever (Different Directory) I run the hive query, it creates a new
+metastore_db, please explain the reason for it?
+answer:- bascially it creates the local metastore, while we run the hive in embedded mode.
+Also, it looks whether metastore already exist or not before creating the metastore.
+
+37) What will happen in case you have not issued the command: ‘SET
+hive.enforce.bucketing=true;’ before bucketing a table in Hive?
+
+answer:-- The command: ‘SET hive.enforce.bucketing=true;’ allows you to have the correct number of reducer while using ‘CLUSTER BY’ clause for bucketing a column. 
+In case it’s not done, one may find the number of files generated in the table directory to be unequal to the number of buckets.
+As an alternative solution, one may also set the number of reducer equal to the number of buckets by using set mapred.reduce.task = num_bucket. 
+
+38) Can a table be renamed in Hive?
+answer:-- by using alter command.
+command like alter table table_name RENAME to new_table_name;
+
+39) Write a query to insert a new column(new_col INT) into a hive table at a
+position before an existing column (x_col)
+answer:-- ALTER TABLE h_table
+CHANGE COLUMN new_col INT
+BEFORE x_col
+
+40) What is serde operation in HIVE?
+answer:-- Hive allows the framework to read or write data in a particular format.
+SerDe is short for Serializer/Deserializer. Hive uses the SerDe interface for IO. 
+The interface handles both serialization and deserialization and also interpreting the results of serialization as individual fields for processing.
+
