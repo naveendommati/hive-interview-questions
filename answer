@@ -308,7 +308,7 @@ E.g. user_name RLIKE ‘.(Smith|Sam).’
 answer:-- ALTER TABLE table_name CHANGE column_name column_name new_datatype;
 
 50) How will you convert the string ’51.2’ to a float value in the particular column?
-answer:--- select cast(1 as float);
+answer:--- select cast(51.2 as float);
 
 51) What will be the result when you cast ‘abc’ (string) as INT?
 answer:-- hive return  null 
