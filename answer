@@ -177,8 +177,8 @@ PARTITION(partitioned_column=’partition_value’)
 24) How can you stop a partition form being queried?
 answer:--By using the ENABLE OFFLINE clause with ALTER TABLE atatement.
 
-25) Why do we need buckets? How Hive distributes the rows into buckets?
-answer:--
+25)  what is meant by bucketing ?.Why do we need buckets? How Hive distributes the rows into buckets?
+answer:--bucketing offers the additional functionality of dividing large datasets into smaller and more manageable sets called buckets.
 Bucketing in hive is useful when dealing with large datasets 
 that may need to be segregated into clusters for more efficient management and to be able to perform join queries with other large datasets
 based on the hashing technique.
