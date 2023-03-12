@@ -244,8 +244,8 @@ command like alter table table_name RENAME to new_table_name;
 39) Write a query to insert a new column(new_col INT) into a hive table at a
 position before an existing column (x_col)
 answer:-- ALTER TABLE h_table
-CHANGE COLUMN new_col INT
-BEFORE x_col
+add COLUMN new_col INT
+
 
 40) What is serde operation in HIVE?
 answer:-- Hive allows the framework to read or write data in a particular format.
